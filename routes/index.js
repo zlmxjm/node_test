@@ -1,7 +1,9 @@
 var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
+var models = require('./model');
 var TodoModel = mongoose.model('user');
+var loginUserModel = models.loginUser;
 var URL = require('url');
 //用来设置单独接口的跨域。router.post('/create',cros,function (req,res) {})
 function cros(req,res,next){
@@ -16,6 +18,38 @@ router.use(cros);
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
+router.post('/register',function (req,res,) {
+  new loginUserModel({
+    userid: req.body.userid,
+    password:req.body.password
+  }).save(function (err, todo, count) {
+      res.redirect('/login');
+  })
+})
+//登录注册功能
+router.get('/tologin',function (req,res) {
+  res.sendfile('./views/login.html');
+})
+router.get('/welcome',function (req,res) {
+  res.sendfile('./views/welcome.html');
+})
+
+router.get('/login',function (req,res) {
+  const params = URL.parse(req.url,true).query;
+  var query_doc = { userid: req.body.userid, password: req.body.password };
+  console.log(params,'params')
+  loginUserModel.count(params, function(err, doc){
+    if(doc == 1){//验证成功,转到 欢迎页面
+      res.json(doc);
+    }else{
+      res.json(err);
+    }
+  });
+})
+router.get('/logout', function(req, res) {//注销,转到登录页面
+  res.redirect('/tologin');
+});
+
 
 router.post('/create',function (req,res) {
   console.log('req.body',req.body);

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+          crossorigin="anonymous">
+    <title>Document</title>
+</head>
+<body>
+<div class="allCon" style="width: 70%;margin: 0 auto;margin-top: 60px;">
+    <h1 style="text-align: center;">node  登录注册</h1>
+    <!--新增-->
+    <form class="initform" method="post" accept-charset="utf-8">
+        <div class="from-group">
+            <label>用户名</label>
+            <input id="userid" class="form-control createContent" type="text" name="userid" placeholder="请输入用户名" />
+        </div>
+        <div class="from-group">
+            <label>密码</label>
+            <input id="pw" class="form-control createContent" type="password" name="password" placeholder="请输入密码" />
+        </div>
+        <div class="from-group" style="margin: 10px 0px;">
+            <button type="button" style="display: none" class="btn btn-info welcome"><a href="/welcome">进入欢迎页</a></button>
+            <button type="button" class="btn btn-info login" onclick="onSubmit()">登录</button>
+            <button type="button" class="btn btn-info" onclick="onRegister()">注册</button>
+            <button type="button" class="btn btn-info" onclick="onReset()">重置</button>
+            <button type="button" class="btn btn-info" ><a href="/">返回首页</a></button>
+        </div>
+    </form>
+</div>
+
+
+</body>
+<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+<script src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+<script src="http://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script>
+    function onRegister() {
+        const obj={
+            userid: $('#userid').val(),
+            password:$("#pw").val()
+        };
+        $.post('http://localhost:3000/register', obj, function (res) {
+            console.log('新增用户成功');
+            alert('新增用户成功')
+        })
+    }
+    function onSubmit() {
+        const obj={
+            userid: $('#userid').val(),
+            password:$("#pw").val()
+        };
+        $.ajax({
+            url:'http://localhost:3000/login',
+            method:'get',
+            data:obj,
+            success:function (res) {
+                if(!res){
+                    alert('登录失败')
+                }else{
+                    alert('登录成功');
+                    $('.welcome').show();
+                    $('.login').hide();
+                }
+            }
+
+        })
+
+
+    }
+    function onReset() {
+        $('#userid').val()="";
+        $("#pw").val()="";
+    }
+</script>
+</html>
