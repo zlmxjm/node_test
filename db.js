@@ -1,8 +1,6 @@
 /*
 1.使用mongoose 连接数据库，连接语法如下；
  */
-
-
 var mongoose = require ("mongoose");
 mongoose.connect('mongodb://localhost/test', { useNewUrlParser: true });
 var db = mongoose.connection;

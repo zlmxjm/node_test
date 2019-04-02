@@ -18,6 +18,9 @@ router.use(cros);
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
+router.get('/map',function (req,res) {
+  res.sendfile('./views/map.html');
+})
 router.post('/register',function (req,res,) {
   new loginUserModel({
     userid: req.body.userid,
